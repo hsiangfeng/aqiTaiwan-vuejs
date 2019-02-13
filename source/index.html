@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AQI監測</title>
+  </head>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <link rel="stylesheet" href="./css/all.css">
+
+  <body>
+    <div class="text-center loading" id="loading">
+      <div class="spinner-border text-info" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <div id="app" class="container">
+      <h3 class="text-white mb-3 text-center">選擇城市</h3>
+      <select name="" id="" class="form-control" v-model="filter">
+        <option value="0" disabled>--- 請選擇城市 ---</option>
+        <option :value="item" v-for="item in cityData" v-if="item">{{ item }}</option>
+      </select>
+      <div class="d-flex justify-content-center align-items-center my-2">
+        <button class="btn btn-outline-primary mx-2" @click="filter = '臺北市'">
+          臺北市
+          <span class="badge badge-primary badge-pill">7</span>
+        </button>
+        <button class="btn btn-outline-primary mx-2" @click="filter = '臺中市'">
+          臺中市
+          <span class="badge badge-primary badge-pill">5</span>
+        </button>
+        <button class="btn btn-outline-primary mx-2" @click="filter = '高雄市'">
+          高雄市
+          <span class="badge badge-primary badge-pill">12</span>
+        </button>
+        <button class="btn btn-outline-primary mx-2" @click="filter = '臺東縣'">
+          臺東縣
+          <span class="badge badge-primary badge-pill">2</span>
+        </button>
+      </div>
+      <div class="card-columns">
+        <aqi-component v-for="item in aqiData" v-if="item.County === filter" :props-data="item"  @on-add-star="addStarLocal(item)" :key="item.SiteName"></aqi-component>
+      </div>
+      <!-- <div class="card-columns">
+        <aqi-component v-for="item in aqiData" v-if="item.County === filter" :on-remove-star="removeStar(item)"></aqi-component>
+      </div> -->
+    </div>
+    <footer class="container-fluid text-center footer-color">
+      <p class="text-block pt-2">AQI監測</p>
+      <p class="text-block mb-0 pb-3">資料來源：OpenData.epa 行政院環境保護署環境資源資料開放平台 </p>
+    </footer>
+
+    <script type="text/x-template" id="aqiComponent">
+      <div class="card" :class="status">
+        <div class="card-body" >
+            <a href="#" class="float-right" @click.prevent="addStar" v-if="!isstar"><i class="far fa-star" ></i></a>
+            <a href="#" class="float-right" @click.prevent="removeStar" v-if="isstar"><i class="fas fa-star" ></i></a>
+          <h5 class="card-title">AQI 空氣品質指標</h5>
+          <p class="card-text">{{propsData.SiteName}} - AQI:{{propsData.AQI}}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item list-group-item-dark font-weight-bold text-center">PM<sup>2.5</sup>(μg/m<sup>3</sup>)細懸浮粒子</li>
+            <li class="list-group-item d-flex">移動平均：{{propsData['PM2.5_AVG']}}</li>
+            <li class="list-group-item d-flex">小時溫度：{{propsData['PM2.5']}}</li>
+        </ul>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item list-group-item-dark font-weight-bold text-center">PM<sup>10</sup>(μg/m3)懸浮粒子</li>
+            <li class="list-group-item d-flex">移動平均：{{propsData.PM10_AVG}}</li>
+            <li class="list-group-item d-flex">小時溫度：{{propsData.PM10}}</li>
+        </ul>
+      </div>
+    </script>
+    <script src="./js/vendors.js"></script>
+    <script src="./js/all.js"></script>
+  </body>
+
+</html>

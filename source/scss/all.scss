@@ -1,0 +1,31 @@
+@import 'bootstrap';
+
+.status-aqi2 {
+  background-color: #ffff00;
+}
+.status-aqi3 {
+  background-color: #ff7e00;
+}
+.status-aqi4 {
+  background-color: #ff0000;
+}
+.status-aqi5 {
+  background-color: #8f3f97;
+}
+.status-aqi6 {
+  background-color: #7e0023;
+  color:$white;
+}
+.loading{
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  height: 100vh;
+  background-color: black;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
